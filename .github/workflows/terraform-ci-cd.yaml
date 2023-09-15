@@ -2,7 +2,10 @@ name: Terraform CI-CD
 on:
   workflow_dispatch:
 # Hands-on 3: add a trigger on push to main https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
-
+on:
+  push:
+    branches:
+      - 'main'
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
 permissions:
@@ -27,7 +30,8 @@ jobs:
         aws-region: us-east-1
 
     # Hands-on 3: Add a step to Setup terraform on the GitHub Runner using this action https://github.com/hashicorp/setup-terraform
-
+    steps:
+    - uses: hashicorp/setup-terraform@v2
 
     # Terraform init to download providers/modules and connect to backend
     - name: Terraform Init
@@ -40,7 +44,8 @@ jobs:
 
     # Hands-on 3: Add a step to make sure Terraform code is valid using the command `terraform validate`
     - name: Terraform Validate
-      run: terraform validate  
+      run: terraform validate 
+       
     # Do a Terraform plan to see what are the changes to be done, note that Terraform can't guarantee to take apply these changes if you run "terraform apply", because terraform apply would be run at a later stage with a potentially different state file.
     - name: Terraform Plan
       run: terraform plan
@@ -53,6 +58,8 @@ jobs:
     # https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
     environment: prd
     steps:
+    - uses: Deployment protection rules
+    
 ## Setup Section
     # This action is a very common action, used to download the repo then cd to its folder
     - name: Download repo and cd to the repo folder
@@ -67,7 +74,8 @@ jobs:
         aws-region: us-east-1
 
     ## TODO: Hands-on 3: Add a step to Setup terraform on the GitHub Runner using this action https://github.com/hashicorp/setup-terraform
-
+    steps:
+    - uses: hashicorp/setup-terraform@v2
 
     # Terraform init to download providers/modules and connect to backend
     - name: Terraform Init
