@@ -5,7 +5,7 @@ on:
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
 permissions:
@@ -59,7 +59,7 @@ jobs:
     environment: prd
     steps:
     - uses: Deployment protection rules
-    
+
 ## Setup Section
     # This action is a very common action, used to download the repo then cd to its folder
     - name: Download repo and cd to the repo folder
