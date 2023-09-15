@@ -23,7 +23,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         # Hands-on 3: Replace this with your OIDC role
-        role-to-assume: arn:aws:iam::12345678910:role/deployment-role
+        role-to-assume: arn:aws:iam::814976825049:role/deployment-role
         aws-region: us-east-1
 
     # Hands-on 3: Add a step to Setup terraform on the GitHub Runner using this action https://github.com/hashicorp/setup-terraform
@@ -39,10 +39,12 @@ jobs:
       run: terraform fmt -check
 
     # Hands-on 3: Add a step to make sure Terraform code is valid using the command `terraform validate`
-
+    - name: Terraform Validate
+      run: terraform validate  
     # Do a Terraform plan to see what are the changes to be done, note that Terraform can't guarantee to take apply these changes if you run "terraform apply", because terraform apply would be run at a later stage with a potentially different state file.
     - name: Terraform Plan
       run: terraform plan
+    
 
   terraform-cd:
     runs-on: ubuntu-latest
@@ -74,4 +76,7 @@ jobs:
 ## CD Section:
     # Deploy Terraform code
     # Hands-on 3: Add a step to deploy Terraform code using the command `terraform apply --auto-approve`
+
+    - name: Terraform Apply
+      run: terraform apply --auto- approve
 
